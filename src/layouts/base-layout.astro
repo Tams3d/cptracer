@@ -1,0 +1,111 @@
+---
+import { getImage } from "astro:assets";
+import latinFont from "@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url";
+import interFont from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+
+import ogImage from "@/assets/brand/og-image.png";
+import Seo from "@/components/seo.astro";
+import "@/index.css";
+
+interface Props {
+  title: string;
+  description: string;
+  path?: string;
+  markdownPath?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  path,
+  markdownPath,
+  jsonLd,
+  noindex = false,
+} = Astro.props;
+
+const optimizedOgImage = await getImage({
+  src: ogImage,
+  width: 1200,
+  height: 630,
+  format: "jpeg",
+  quality: 86,
+});
+
+const ogImageSrc = optimizedOgImage.src;
+---
+
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="generator" content={Astro.generator} />
+    <Seo
+      title={title}
+      description={description}
+      path={path}
+      image={ogImageSrc}
+      imageWidth={1200}
+      imageHeight={630}
+      markdownPath={markdownPath}
+      jsonLd={jsonLd}
+      noindex={noindex}
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={latinFont}
+      crossorigin
+    />
+    {path === "/about/" && (
+      <link
+        rel="preload"
+        as="font"
+        type="font/woff2"
+        href={interFont}
+        crossorigin
+      />
+    )}
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("cptracer-theme");
+          const isDark =
+            stored === "dark" ||
+            (stored !== "light" &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches);
+          // Disable transitions while applying the stored theme so the
+          // initial paint matches without a flash or crossfade.
+          document.documentElement.style.transition = "none";
+          document.documentElement.classList.toggle("dark", isDark);
+          document.documentElement.style.colorScheme = isDark
+            ? "dark"
+            : "light";
+        } catch {
+          // Storage can be unavailable in private or restricted contexts.
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-background focus:px-3 focus:py-2 focus:text-sm focus:text-foreground focus:outline-2 focus:outline-ring"
+    >
+      Skip to content
+    </a>
+    <slot />
+
+    <script is:inline>
+      document.documentElement.style.transition = "";
+    </script>
+  </body>
+</html>

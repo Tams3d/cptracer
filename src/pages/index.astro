@@ -1,0 +1,20 @@
+---
+import { PlatformProfileSummary } from "@/components/platform-profile-summary";
+import AppLayout from "@/layouts/app-layout.astro";
+---
+
+<AppLayout
+  title="Competitive programming dashboard"
+  description="Track Codeforces, AtCoder, and LeetCode in one local-first dashboard. View live ratings, solved counts, activity heatmaps, trends, and recent accepted problems."
+  heading="Dashboard"
+  path="/"
+  markdownPath="/index.md"
+>
+  <noscript>
+    <p class="p-2 text-xs text-muted-foreground">
+      cptracer needs JavaScript to read handles stored in this browser and fetch
+      live platform statistics.
+    </p>
+  </noscript>
+  <PlatformProfileSummary client:load />
+</AppLayout>

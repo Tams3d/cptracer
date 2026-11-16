@@ -1,0 +1,348 @@
+@import "tailwindcss";
+@import "@fontsource-variable/jetbrains-mono";
+@import "@fontsource-variable/inter";
+
+@custom-variant dark (&:is(.dark *));
+@theme {
+  --spacing: 0.275rem;
+  --text-2xs: 0.6875rem;
+  --text-xs: 0.825rem;
+  --text-sm: 0.9625rem;
+  --text-base: 1.1rem;
+  --text-lg: 1.2375rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.65rem;
+}
+
+:root {
+  --sidebar-expanded-width: 14.3rem;
+  --sidebar-collapsed-width: 3.3rem;
+  --sidebar-width: var(--sidebar-expanded-width);
+  --background: #ffffff;
+  --foreground: #171717;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #171717;
+  --muted: #f5f5f5;
+  --muted-foreground: #666666;
+  --accent: #f0f0f0;
+  --accent-foreground: #171717;
+  --destructive: #ff4d4f;
+  --border: #e5e5e5;
+  --input: #d9d9d9;
+  --ring: #1677ff;
+  --selection: #dbeafe;
+  --selection-foreground: #171717;
+  --radius: 0.275rem;
+  --sidebar: #fafafa;
+  --sidebar-hover: #f5f5f5;
+  --sidebar-active: #e8e8e8;
+  --sidebar-border: #e5e5e5;
+  --heatmap-empty: #f0f0f0;
+  --heatmap-count-1: #d9f7be;
+  --heatmap-count-2: #95de64;
+  --heatmap-count-3: #52c41a;
+  --heatmap-count-4: #237804;
+  --heatmap-difficulty-1: #4ade80;
+  --heatmap-difficulty-2: #a3e635;
+  --heatmap-difficulty-3: #facc15;
+  --heatmap-difficulty-4: #f97316;
+  --heatmap-difficulty-5: #ef4444;
+  --chart-codeforces: #cf1322;
+  --chart-atcoder: #000000;
+  --chart-leetcode: #d48806;
+  --chart-total: #1677ff;
+  --difficulty-easy: #1a7f37;
+  --difficulty-medium: #9a6700;
+  --difficulty-hard: #cf222e;
+}
+
+.dark {
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #171717;
+  --card-foreground: #ffffff;
+  --popover: #171717;
+  --popover-foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  --secondary: #262626;
+  --secondary-foreground: #ffffff;
+  --muted: #262626;
+  --muted-foreground: #a3a3a3;
+  --accent: #303030;
+  --accent-foreground: #ffffff;
+  --destructive: #ff7875;
+  --border: #303030;
+  --input: #434343;
+  --ring: #4096ff;
+  --selection: #1e3a8a;
+  --selection-foreground: #ffffff;
+  --sidebar: #0a0a0a;
+  --sidebar-hover: #1f1f1f;
+  --sidebar-active: #2a2a2a;
+  --sidebar-border: #303030;
+  --heatmap-empty: #262626;
+  --heatmap-count-1: #135200;
+  --heatmap-count-2: #237804;
+  --heatmap-count-3: #389e0d;
+  --heatmap-count-4: #73d13d;
+  --heatmap-difficulty-1: #14532d;
+  --heatmap-difficulty-2: #166534;
+  --heatmap-difficulty-3: #d97706;
+  --heatmap-difficulty-4: #ea580c;
+  --heatmap-difficulty-5: #dc2626;
+  --chart-codeforces: #ff4d4f;
+  --chart-atcoder: #ffffff;
+  --chart-leetcode: #fadb14;
+  --chart-total: #4096ff;
+  --difficulty-easy: #7ee787;
+  --difficulty-medium: #f2cc60;
+  --difficulty-hard: #ff7b72;
+}
+
+@theme inline {
+  --font-sans: "JetBrains Mono Variable", monospace;
+  --font-mono: "JetBrains Mono Variable", monospace;
+  --font-inter: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-hover: var(--sidebar-hover);
+  --color-sidebar-active: var(--sidebar-active);
+  --color-sidebar: var(--sidebar);
+  --color-difficulty-easy: var(--difficulty-easy);
+  --color-difficulty-medium: var(--difficulty-medium);
+  --color-difficulty-hard: var(--difficulty-hard);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  .tag-color-0 {
+    --tag-color: #0969da;
+    --tag-border: #54aeff;
+  }
+
+  .tag-color-1 {
+    --tag-color: #8250df;
+    --tag-border: #c297ff;
+  }
+
+  .tag-color-2 {
+    --tag-color: #1a7f37;
+    --tag-border: #4ac26b;
+  }
+
+  .tag-color-3 {
+    --tag-color: #9a6700;
+    --tag-border: #d4a72c;
+  }
+
+  .tag-color-4 {
+    --tag-color: #bf3989;
+    --tag-border: #f778ba;
+  }
+
+  .tag-color-5 {
+    --tag-color: #cf222e;
+    --tag-border: #ff8182;
+  }
+
+  .tag-color-0,
+  .tag-color-1,
+  .tag-color-2,
+  .tag-color-3,
+  .tag-color-4,
+  .tag-color-5 {
+    border-color: var(--tag-border);
+    color: var(--tag-color);
+  }
+
+  .dark .tag-color-0 {
+    --tag-color: #79c0ff;
+    --tag-border: #388bfd;
+  }
+
+  .dark .tag-color-1 {
+    --tag-color: #d2a8ff;
+    --tag-border: #8957e5;
+  }
+
+  .dark .tag-color-2 {
+    --tag-color: #7ee787;
+    --tag-border: #238636;
+  }
+
+  .dark .tag-color-3 {
+    --tag-color: #f2cc60;
+    --tag-border: #9e6a03;
+  }
+
+  .dark .tag-color-4 {
+    --tag-color: #ff9bce;
+    --tag-border: #db61a2;
+  }
+
+  .dark .tag-color-5 {
+    --tag-color: #ff7b72;
+    --tag-border: #da3633;
+  }
+  html {
+    @apply font-sans;
+    color-scheme: light;
+    scrollbar-gutter: stable;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    font-size: 1.1rem;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--selection);
+    color: var(--selection-foreground);
+  }
+}
+
+html.sidebar-collapsed {
+  --sidebar-width: var(--sidebar-collapsed-width);
+}
+
+@media (min-width: 64rem) {
+  .app-shell {
+    transition: grid-template-columns 180ms ease;
+  }
+}
+
+.sidebar-toggle-expand-icon {
+  display: none;
+}
+
+html.sidebar-collapsed .sidebar-toggle-expand-icon {
+  display: block;
+}
+
+html.sidebar-collapsed .sidebar-toggle-collapse-icon,
+html.sidebar-collapsed .sidebar-label,
+html.sidebar-collapsed .sidebar-footnote {
+  display: none;
+}
+
+html.sidebar-collapsed .sidebar-brand-text {
+  flex: none;
+  width: 0;
+  visibility: hidden;
+}
+
+html.sidebar-collapsed .sidebar-nav-link,
+html.sidebar-collapsed .sidebar-brand {
+  justify-content: center;
+  gap: 0;
+  padding-inline: 0;
+}
+
+.theme-icon {
+  position: absolute;
+}
+
+.theme-icon-sun {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.6);
+}
+
+.theme-icon-moon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.dark .theme-icon-sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.dark .theme-icon-moon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.6);
+}
+
+/* Smooth, synchronized theme switching for all color properties.
+   Changing --background, --foreground, etc. on <html> instantly
+   recomputes every var()-based color; these transitions animate them
+   together so nothing lags or desyncs. */
+html {
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+html * {
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    outline-color 0.25s ease,
+    caret-color 0.25s ease;
+}
+
+.theme-icon {
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

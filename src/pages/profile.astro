@@ -1,0 +1,19 @@
+---
+import { ProfilePage } from "@/components/profile-page";
+import AppLayout from "@/layouts/app-layout.astro";
+---
+
+<AppLayout
+  title="Profile handles"
+  description="Connect Codeforces, AtCoder, and LeetCode handles. Handles and cached statistics stay in your browser."
+  heading="Profile"
+  path="/profile/"
+  markdownPath="/profile.md"
+>
+  <noscript>
+    <p class="p-2 text-xs text-muted-foreground">
+      cptracer needs JavaScript to read and save handles in this browser.
+    </p>
+  </noscript>
+  <ProfilePage client:load />
+</AppLayout>

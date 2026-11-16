@@ -1,0 +1,120 @@
+---
+import { PlatformLogo } from "@/components/platform-logo";
+import AppLayout from "@/layouts/app-layout.astro";
+import { ABOUT_FAQS, ABOUT_PLATFORMS } from "@/lib/about-content";
+
+const faqJsonLd = {
+  "@type": "FAQPage",
+  mainEntity: ABOUT_FAQS.filter(
+    (faq) =>
+      faq.question === "Why is a platform marked unavailable?" ||
+      faq.question === "Which difficulty values are shown?",
+  ).map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
+---
+
+<AppLayout
+  title="About"
+  description="How cptracer works, which platforms it supports, and how your handles and data are handled."
+  heading="About"
+  path="/about/"
+  markdownPath="/about.md"
+  jsonLd={faqJsonLd}
+>
+  <div class="flex min-w-0 flex-1 flex-col">
+    <div class="flex min-w-0 flex-col gap-2">
+      <section class="border border-border bg-background p-3">
+        <h1 class="text-sm font-semibold tracking-tight">About cptracer</h1>
+        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">
+          A local-first dashboard for Codeforces, AtCoder, and LeetCode
+          statistics. Open source under the MIT licence. Runs without an
+          account, database, or analytics service.
+        </p>
+      </section>
+
+      <div class="grid gap-2 lg:grid-cols-2">
+        <section class="min-w-0 border border-border bg-background p-3">
+          <h2 class="text-sm font-semibold">How it works</h2>
+          <p class="mt-1 text-xs leading-relaxed text-muted-foreground">
+            Saved handles load from browser local storage and render
+            immediately. Cached results younger than five minutes are reused;
+            older results refresh in the background. Use the refresh button to
+            fetch new data.
+          </p>
+        </section>
+
+        <section class="min-w-0 border border-border bg-background p-3">
+          <h2 class="text-sm font-semibold">Privacy</h2>
+          <p class="mt-1 text-xs leading-relaxed text-muted-foreground">
+            Handles and cached statistics stay in your browser. Requests go
+            directly to each platform&apos;s public API. Clearing site data
+            removes every stored value.
+          </p>
+        </section>
+      </div>
+
+      <section class="border border-border bg-background p-3">
+        <h2 class="text-sm font-semibold">Supported platforms</h2>
+        <ul class="mt-2 flex flex-col gap-2">
+          {ABOUT_PLATFORMS.map((platform) => (
+            <li class="flex items-start gap-2">
+              <PlatformLogo platform={platform.id} className="mt-0.5 size-4" />
+              <div class="min-w-0">
+                <p class="text-xs font-medium">{platform.name}</p>
+                <p class="text-2xs leading-relaxed text-muted-foreground">
+                  {platform.summary}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-2 text-2xs leading-relaxed text-muted-foreground">
+          CodeChef and CSES are not supported because their public interfaces
+          are unreliable for browser requests.
+        </p>
+      </section>
+
+      <section class="border border-border bg-background p-3">
+        <h2 id="faq-heading" class="text-sm font-semibold">
+          Frequently asked questions
+        </h2>
+        <dl class="mt-2 flex flex-col divide-y divide-border">
+          {ABOUT_FAQS.filter(
+            (faq) =>
+              faq.question === "Why is a platform marked unavailable?" ||
+              faq.question === "Which difficulty values are shown?",
+          ).map((faq) => (
+            <div class="flex flex-col gap-1 py-2 first:pt-0 last:pb-0">
+              <dt class="text-xs font-semibold">{faq.question}</dt>
+              <dd class="text-xs leading-relaxed text-muted-foreground">
+                {faq.answer}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    </div>
+
+    <footer class="mx-auto mt-auto max-w-172.5 px-4 pt-4 pb-8">
+      <p class="text-center text-xs text-muted-foreground">
+        &copy; 2026 Tamilselvan
+      </p>
+    </footer>
+
+    <div
+      class="@container -mb-2 overflow-hidden sm:-mb-3 lg:-mb-4"
+      aria-hidden="true"
+    >
+      <div class="translate-y-[22.5%] mask-[linear-gradient(to_bottom,black_0%,white_50%,transparent_100%)] text-center font-inter text-[15.62cqw] leading-none font-semibold tracking-tighter text-balance whitespace-nowrap select-none">
+        TAMILSELVAN
+      </div>
+    </div>
+  </div>
+</AppLayout>

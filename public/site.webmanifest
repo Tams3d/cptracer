@@ -1,0 +1,19 @@
+{
+  "name": "cptracer",
+  "short_name": "cptracer",
+  "description": "Local-first Codeforces, AtCoder, and LeetCode dashboard.",
+  "lang": "en-IN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

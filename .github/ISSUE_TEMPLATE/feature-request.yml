@@ -1,0 +1,33 @@
+name: Feature request
+description: Suggest a change that fits the project scope.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        cptracer only supports platforms with a public API that allows direct browser requests. Requests for CodeChef, CSES, or a backend are out of scope.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is difficult or missing today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe the behaviour you want, including any alternatives you considered.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Note any effect on privacy, local storage, the supported platform list, or bundle size.
+    validations:
+      required: false
