@@ -114,9 +114,12 @@ cptracer/
 |   |   \-- platform-profile-storage.ts  # Handles and cached results
 |   \-- index.css
 +-- astro.config.ts
++-- .gitattributes
 +-- .oxlintrc.json
 +-- .oxfmtrc.json
 +-- .vercelignore
++-- .vscode/
++|   \-- settings.json
 +-- vercel.json
 +-- package.json
 +-- CONTRIBUTING.md
