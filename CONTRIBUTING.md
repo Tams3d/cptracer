@@ -4,7 +4,7 @@ Thanks for improving cptracer. This project is a static Astro site, so every cha
 
 ## Setup
 
-1. Install Bun 1.3 or Node.js 22.23.4 or newer.
+1. Install Bun 1.4 or Node.js 22.23.4 or newer.
 2. Run `bun install`.
 3. Run `bun run dev` and open the printed local URL.
 
@@ -12,7 +12,7 @@ No environment variables are required.
 
 ## Checks
 
-Run the same commands as CI before opening a pull request.
+Run these checks before opening a pull request.
 
 | Command             | Purpose                               |
 | ------------------- | ------------------------------------- |

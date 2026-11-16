@@ -22,13 +22,13 @@ Only platforms with a reliable public API and browser CORS support are supported
 | Layer           | Technology                            |
 | --------------- | ------------------------------------- |
 | Framework       | Astro 7.4 with static output          |
-| UI islands      | React 19 + TypeScript 5.9             |
+| UI islands      | React 19 + TypeScript 6.0             |
 | Styling         | Tailwind CSS 4                        |
 | Primitives      | Radix UI (button slot and label only) |
 | Charts          | Recharts 3                            |
 | Icons           | Lucide React                          |
 | Fonts           | JetBrains Mono and Inter, self-hosted |
-| Package manager | Bun 1.3                               |
+| Package manager | Bun 1.4                               |
 | Lint/format     | Oxlint, Oxfmt                         |
 
 Astro renders every page to static HTML. The app shell, navigation, and About page are plain Astro. Only the dashboard summary, the profile form, and the theme toggle hydrate as React islands. There is no client-side router: navigation is a normal MPA page load, with Astro viewport prefetching. A CSS cross-document view transition smooths the hand-off between pages where the browser supports it, and motion-sensitive visitors get an instant swap instead.
@@ -37,7 +37,7 @@ Astro renders every page to static HTML. The app shell, navigation, and About pa
 
 ### Prerequisites
 
-- Bun 1.3+ or Node.js 22.23.4+
+- Bun 1.4+ or Node.js 22.23.4+
 
 ### Commands
 
@@ -85,8 +85,6 @@ All data stays in the browser.
 ```text
 cptracer/
 +-- .github/
-|   +-- workflows/ci.yml        # Format, lint, type-check, and build
-|   +-- dependabot.yml
 |   \-- ISSUE_TEMPLATE/
 +-- public/
 |   +-- logos/                  # Platform brand marks
@@ -161,10 +159,6 @@ Requests run directly from the browser to the platform APIs. Each request has a 
 - `robots.txt` allows crawlers and points to the sitemap.
 
 Canonical URLs, Open Graph tags, JSON-LD, the sitemap, and MCP discovery use the deployment origin, which Vercel exposes to the build. No domain is hard-coded and no environment variable is required.
-
-## Continuous integration
-
-`.github/workflows/ci.yml` runs on every push to `main` and every pull request. It installs from `bun.lock` with `--frozen-lockfile`, then runs formatting, lint, type-check, and build in that order. A failing step stops the run. Dependabot groups weekly dependency and GitHub Actions updates.
 
 ## Deployment
 
