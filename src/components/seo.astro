@@ -1,0 +1,136 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image: string;
+  path?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  markdownPath?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+  type?: "website" | "article";
+}
+
+const {
+  title,
+  description,
+  image,
+  path = Astro.url.pathname,
+  imageAlt = "cptracker - competitive programming, one dashboard",
+  imageWidth = 1200,
+  imageHeight = 630,
+  markdownPath,
+  jsonLd,
+  noindex = false,
+  type = "website",
+} = Astro.props;
+
+const site = Astro.site;
+
+function absolute(url: string): string {
+  return site ? new URL(url, site).href : url;
+}
+
+const canonical = absolute(path);
+const imageUrl = absolute(image);
+const markdownUrl = markdownPath ? absolute(markdownPath) : null;
+const llmsUrl = absolute("/llms.txt");
+const mcpUrl = absolute("/.well-known/mcp.json");
+const fullTitle = title === "cptracker" ? title : `${title} | cptracker`;
+const extraStructuredData = jsonLd
+  ? Array.isArray(jsonLd)
+    ? jsonLd
+    : [jsonLd]
+  : [];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": absolute("/#website"),
+      url: absolute("/"),
+      name: "cptracker",
+      description,
+      inLanguage: "en-IN",
+    },
+    {
+      "@type": "WebApplication",
+      name: "cptracker",
+      url: canonical,
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "Any",
+      browserRequirements: "Requires JavaScript",
+      isAccessibleForFree: true,
+      description,
+      inLanguage: "en-IN",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "INR",
+      },
+    },
+    ...extraStructuredData,
+  ],
+};
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{markdownUrl && (
+  <link rel="alternate" type="text/markdown" href={markdownUrl} />
+)}
+<link rel="describedby" type="text/plain" href={llmsUrl} />
+<link
+  rel="alternate"
+  type="application/json"
+  href={mcpUrl}
+  title="MCP discovery"
+/>
+<meta
+  name="robots"
+  content={
+    noindex
+      ? "noindex, nofollow"
+      : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+  }
+/>
+<meta name="author" content="cptracker" />
+<meta name="application-name" content="cptracker" />
+<meta name="apple-mobile-web-app-title" content="cptracker" />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content="cptracker" />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:alt" content={imageAlt} />
+<meta property="og:image:width" content={String(imageWidth)} />
+<meta property="og:image:height" content={String(imageHeight)} />
+<meta property="og:locale" content="en_IN" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+<meta name="twitter:image:alt" content={imageAlt} />
+
+<meta
+  name="theme-color"
+  content="#ffffff"
+  media="(prefers-color-scheme: light)"
+/>
+<meta
+  name="theme-color"
+  content="#000000"
+  media="(prefers-color-scheme: dark)"
+/>
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")}
+/>

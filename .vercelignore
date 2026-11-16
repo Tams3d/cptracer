@@ -1,0 +1,22 @@
+# Build output and caches
+node_modules
+dist
+dist-ssr
+.astro
+
+# Local configuration
+.env*
+.vercel
+.vscode
+.idea
+.DS_Store
+
+# Repository-only files
+.github
+README.md
+CONTRIBUTING.md
+SECURITY.md
+LICENSE
+.oxfmtrc.json
+.oxlintrc.json
+components.json

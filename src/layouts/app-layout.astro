@@ -1,0 +1,211 @@
+---
+import {
+  Braces,
+  Home,
+  Info,
+  PanelLeftClose,
+  PanelLeftOpen,
+  UserRound,
+} from "lucide-react";
+
+import { ThemeToggle } from "@/components/theme-toggle";
+import BaseLayout from "@/layouts/base-layout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  path?: string;
+  markdownPath?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const { title, description, heading, path, markdownPath, jsonLd, noindex } =
+  Astro.props;
+
+const navItems = [
+  { href: "/", label: "Home", icon: Home },
+  { href: "/profile/", label: "Profile", icon: UserRound },
+  { href: "/about/", label: "About", icon: Info },
+];
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === "/" ? pathname === "/" : pathname.startsWith(href);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  markdownPath={markdownPath}
+  jsonLd={jsonLd}
+  noindex={noindex}
+>
+  <script is:inline>
+    (() => {
+      const storageKey = "cptracker-sidebar-collapsed";
+      const root = document.documentElement;
+
+      function readCollapsed() {
+        try {
+          return window.localStorage.getItem(storageKey) === "true";
+        } catch {
+          return false;
+        }
+      }
+
+      function syncToggle(toggle) {
+        const collapsed = root.classList.contains("sidebar-collapsed");
+        const label = collapsed ? "Expand sidebar" : "Collapse sidebar";
+        toggle.setAttribute("aria-expanded", String(!collapsed));
+        toggle.setAttribute("aria-label", label);
+        toggle.setAttribute("title", label);
+      }
+
+      root.classList.toggle("sidebar-collapsed", readCollapsed());
+
+      document.addEventListener("click", (event) => {
+        if (!(event.target instanceof Element)) return;
+
+        const toggle = event.target.closest("[data-sidebar-toggle]");
+        if (!(toggle instanceof HTMLElement)) return;
+
+        const collapsed = root.classList.toggle("sidebar-collapsed");
+
+        try {
+          window.localStorage.setItem(storageKey, String(collapsed));
+        } catch {
+          // The collapsed state still applies for this page view.
+        }
+
+        syncToggle(toggle);
+      });
+
+      function syncAll() {
+        for (const toggle of document.querySelectorAll(
+          "[data-sidebar-toggle]",
+        )) {
+          if (toggle instanceof HTMLElement) syncToggle(toggle);
+        }
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", syncAll, { once: true });
+      } else {
+        syncAll();
+      }
+    })();
+  </script>
+
+  <div class="app-shell min-h-screen lg:grid lg:grid-cols-[var(--sidebar-width)_minmax(0,1fr)]">
+    <aside
+      id="app-sidebar"
+      class="hidden min-w-0 flex-col gap-3 border-r border-sidebar-border bg-sidebar p-2 lg:sticky lg:top-0 lg:flex lg:h-screen lg:self-start"
+    >
+      <a
+        href="/"
+        aria-label="cptracker home"
+        class="sidebar-brand flex min-w-0 items-center gap-2 px-1 py-0.5"
+      >
+        <span class="flex size-6 shrink-0 items-center justify-center bg-primary text-primary-foreground">
+          <Braces className="size-4" />
+        </span>
+        <span class="sidebar-brand-text flex min-w-0 flex-col leading-tight">
+          <span class="truncate text-sm font-semibold tracking-tight">
+            cptracker
+          </span>
+          <span class="truncate text-2xs text-muted-foreground">
+            Competitive programming
+          </span>
+        </span>
+      </a>
+
+      <nav aria-label="Main" class="flex flex-col gap-1">
+        {navItems.map((item) => (
+          <a
+            href={item.href}
+            aria-label={item.label}
+            title={item.label}
+            aria-current={isActive(item.href) ? "page" : undefined}
+            class:list={[
+              "sidebar-nav-link flex items-center gap-2 border border-transparent px-2 py-1.5 text-xs font-medium transition-colors",
+              "hover:border-border hover:bg-sidebar-hover hover:text-foreground",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              isActive(item.href)
+                ? "border-border bg-sidebar-active text-foreground"
+                : "text-muted-foreground",
+            ]}
+          >
+            <item.icon className="size-4 shrink-0" />
+            <span class="sidebar-label truncate">{item.label}</span>
+          </a>
+        ))}
+      </nav>
+    </aside>
+
+    <div class="flex min-h-screen min-w-0 flex-col">
+      <header class="sticky top-0 z-10 flex h-11 shrink-0 items-center gap-1 border-b bg-background/90 px-2 backdrop-blur-sm">
+        <button
+          type="button"
+          data-sidebar-toggle
+          aria-controls="app-sidebar"
+          aria-expanded="true"
+          aria-label="Collapse sidebar"
+          title="Collapse sidebar"
+          class="hidden size-8 shrink-0 items-center justify-center border border-transparent text-muted-foreground transition-colors hover:border-border hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring lg:flex"
+        >
+          <PanelLeftClose className="sidebar-toggle-collapse-icon size-4" />
+          <PanelLeftOpen className="sidebar-toggle-expand-icon size-4" />
+        </button>
+
+        <a
+          href="/"
+          aria-label="cptracker home"
+          class="flex size-8 shrink-0 items-center justify-center bg-primary text-primary-foreground lg:hidden"
+        >
+          <Braces className="size-4" />
+        </a>
+
+        <nav
+          aria-label="Main"
+          class="flex min-w-0 items-center gap-1 lg:hidden"
+        >
+          {navItems.map((item) => (
+            <a
+              href={item.href}
+              aria-label={item.label}
+              aria-current={isActive(item.href) ? "page" : undefined}
+              class:list={[
+                "flex size-8 items-center justify-center border border-transparent transition-colors",
+                "hover:border-border hover:bg-muted",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                isActive(item.href)
+                  ? "border-border bg-accent text-accent-foreground"
+                  : "text-muted-foreground",
+              ]}
+            >
+              <item.icon className="size-4" />
+            </a>
+          ))}
+        </nav>
+
+        <span class="hidden min-w-0 truncate text-xs font-medium lg:block">
+          {heading}
+        </span>
+
+        <div class="ml-auto shrink-0">
+          <ThemeToggle client:load />
+        </div>
+      </header>
+
+      <main
+        id="main-content"
+        class="flex min-w-0 flex-1 flex-col bg-muted/20 p-2 sm:p-3 lg:p-4"
+      >
+        <slot />
+      </main>
+    </div>
+  </div>
+</BaseLayout>
